@@ -1,0 +1,17 @@
+{% load static %}
+<!doctype html>
+<html lang="el">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Salon{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    {% block nav %}{% endblock %}
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

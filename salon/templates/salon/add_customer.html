@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Νέος Πελάτης{% endblock %}
+
+{% block nav %}
+  <nav><a href="{% url 'customer' %}">← Επιστροφή</a></nav>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <h1>Νέος Πελάτης</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Στοιχεία Πελάτη</legend>
+      {{ form.as_p }}
+    </fieldset>
+    <button type="submit">Αποθήκευση</button>
+  </form>
+{% endblock %}

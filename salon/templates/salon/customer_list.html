@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Πελάτες{% endblock %}
+
+{% block nav %}
+  <nav><a href="{% url 'add-customer' %}">+ Νέος Πελάτης</a></nav>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <h1>Πελάτες</h1>
+
+  {% if customers %}
+    <table>
+      <thead>
+        <tr>
+          <th>Όνομα</th>
+          <th>Επώνυμο</th>
+          <th>Τηλέφωνο</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+          <tr>
+            <td>{{ customer.first_name }}</td>
+            <td>{{ customer.last_name }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν πελάτες ακόμα.</p>
+  {% endif %}
+{% endblock %}
