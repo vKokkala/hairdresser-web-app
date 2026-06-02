@@ -1,8 +1,11 @@
 body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   font-family: sans-serif;
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
+  padding: 0 10vh ;
+  background: linear-gradient(135deg, #e771c4, #8532a9);
+  min-height: 100vh;
 }
 
 table { width: 100%; border-collapse: collapse; }

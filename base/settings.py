@@ -125,3 +125,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PHONENUMBER_DEFAULT_REGION = "GR"
+
+LANGUAGE_CODE = "el-gr"
