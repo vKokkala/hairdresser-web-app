@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{% block page_title %}{% endblock %}{% endblock %}
+
+{% block nav %}
+  <nav><a href="{% block back_url %}{% endblock %}">← Επιστροφή</a></nav>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <h1>{% block heading %}{% endblock %}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <fieldset>
+      <legend>{% block legend %}{% endblock %}</legend>
+      {{ form.as_p }}
+    </fieldset>
+    <button type="submit">Αποθήκευση</button>
+  </form>
+{% endblock %}

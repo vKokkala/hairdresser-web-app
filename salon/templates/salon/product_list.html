@@ -1,0 +1,35 @@
+{% extends "salon/_list_base.html" %}
+
+{% block page_title %}Προϊόντα{% endblock %}
+{% block add_url %}{% url 'add-product' %}{% endblock %}
+{% block add_label %}Νέο Προϊόν{% endblock %}
+{% block heading %}Προϊόντα{% endblock %}
+
+{% block list_content %}
+  {% if products %}
+    <table>
+      <thead>
+        <tr>
+          <th>Μάρκα</th>
+          <th>Τύπος</th>
+          <th>Μέγεθος</th>
+          <th>Κόστος</th>
+          <th>Τιμή Πώλησης</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product }}</td>
+            <td>{{ product.cost }}</td>
+            <td>{{ product.selling_price }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν προϊόντα ακόμα.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "salon/_list_base.html" %}
+
+{% block page_title %}Μάρκες{% endblock %}
+{% block add_url %}{% url 'add-brand' %}{% endblock %}
+{% block add_label %}Νέα Μάρκα{% endblock %}
+{% block heading %}Μάρκες{% endblock %}
+
+{% block list_content %}
+  {% if brands %}
+    <table>
+      <thead>
+        <tr>
+          <th>Όνομα</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for brand in brands %}
+          <tr>
+            <td>{{ brand.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν μάρκες ακόμα.</p>
+  {% endif %}
+{% endblock %}

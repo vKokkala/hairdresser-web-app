@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{% block page_title %}{% endblock %}{% endblock %}
+
+{% block nav %}
+  <nav><a href="{% block add_url %}{% endblock %}">+ {% block add_label %}{% endblock %}</a></nav>
+  <hr />
+{% endblock %}
+
+{% block content %}
+  <h1>{% block heading %}{% endblock %}</h1>
+
+  {% block list_content %}{% endblock %}
+{% endblock %}

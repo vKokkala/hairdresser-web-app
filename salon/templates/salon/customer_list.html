@@ -1,15 +1,11 @@
-{% extends "base.html" %}
+{% extends "salon/_list_base.html" %}
 
-{% block title %}Πελάτες{% endblock %}
+{% block page_title %}Πελάτες{% endblock %}
+{% block add_url %}{% url 'add-customer' %}{% endblock %}
+{% block add_label %}Νέος Πελάτης{% endblock %}
+{% block heading %}Πελάτες{% endblock %}
 
-{% block nav %}
-  <nav><a href="{% url 'add-customer' %}">+ Νέος Πελάτης</a></nav>
-  <hr />
-{% endblock %}
-
-{% block content %}
-  <h1>Πελάτες</h1>
-
+{% block list_content %}
   {% if customers %}
     <table>
       <thead>
