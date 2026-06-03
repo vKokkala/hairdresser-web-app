@@ -11,12 +11,17 @@
       <thead>
         <tr>
           <th>Όνομα</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         {% for pt in product_types %}
           <tr>
             <td>{{ pt.name }}</td>
+            <td>
+              {% url 'delete-product-type' pt.pk as delete_url %}
+              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

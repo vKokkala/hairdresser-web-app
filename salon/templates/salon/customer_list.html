@@ -14,7 +14,7 @@
           <th>Επώνυμο</th>
           <th>Τηλέφωνο</th>
           <th>Email</th>
-        </tr>
+          <th></th>
       </thead>
       <tbody>
         {% for customer in customers %}
@@ -23,6 +23,10 @@
             <td>{{ customer.last_name|default:"-" }}</td>
             <td>{{ customer.phone }}</td>
             <td>{{ customer.email|default:"-" }}</td>
+            <td>
+              {% url 'delete-customer' customer.pk as delete_url %}
+              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

@@ -15,6 +15,7 @@
           <th>Μέγεθος</th>
           <th>Κόστος</th>
           <th>Τιμή Πώλησης</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -22,9 +23,13 @@
           <tr>
             <td>{{ product.brand }}</td>
             <td>{{ product.type }}</td>
-            <td>{{ product }}</td>
+            <td>{{ product.size }}{{ product.unit }}</td>
             <td>{{ product.cost }}</td>
             <td>{{ product.selling_price }}</td>
+            <td>
+              {% url 'delete-product' product.pk as delete_url %}
+              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

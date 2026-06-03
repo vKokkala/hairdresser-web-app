@@ -3,7 +3,10 @@
 {% block title %}{% block page_title %}{% endblock %}{% endblock %}
 
 {% block nav %}
-  <nav><a href="{% block add_url %}{% endblock %}">+ {% block add_label %}{% endblock %}</a></nav>
+  <nav>
+    <a href="{% url 'home' %}">← Αρχική</a>
+    <a href="{% block add_url %}{% endblock %}">+ {% block add_label %}{% endblock %}</a>
+  </nav>
   <hr />
 {% endblock %}
 
