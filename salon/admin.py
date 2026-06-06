@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import (
+    AppointmentReportService,
     Customer,
     Product,
     ProductType,
@@ -31,4 +32,18 @@ class AppointmentAdmin(admin.ModelAdmin):
     get_services.short_description = "Services"
 
 
-admin.site.register([Product, Brand, ProductType, AppointmentReport])
+@admin.register(AppointmentReport)
+class AppointmentReportAdmin(admin.ModelAdmin):
+    list_display = ["duration", "get_customer", "get_date"]
+
+    def get_customer(self, obj):
+        return obj.appointment.customer
+
+    def get_date(self, obj):
+        return obj.appointment.date
+
+    get_customer.short_description = "Customer"
+    get_date.short_description = "Date"
+
+
+admin.site.register([Product, Brand, ProductType, AppointmentReportService])

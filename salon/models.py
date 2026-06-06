@@ -11,6 +11,10 @@ class Unit(models.TextChoices):
     PCS = "pcs", "Pieces"
 
 
+def get_appointment_str(appointment_obj):
+    return f"{str(appointment_obj.customer)} {str(appointment_obj.date.day) +  "/" + str(appointment_obj.date.month)}"
+
+
 # unique key? validators?
 class Customer(models.Model):
     first_name = models.CharField(max_length=100)
@@ -67,6 +71,7 @@ class Product(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=100, unique=True)
     cost = models.DecimalField(max_digits=7, decimal_places=2)
+    duration = models.PositiveIntegerField(default=30)
 
     def __str__(self):
         return self.name
@@ -80,12 +85,13 @@ class Appointment(models.Model):
     duration = models.PositiveIntegerField(default=30)
 
     def save(self, *args, **kwargs):
-        if self.duration is None:
+        if not self.duration:
             self.duration = self.date.hour + 30
         super().save(*args, **kwargs)
 
     def __str__(self):
-         return f"{str(self.customer)} {str(self.date.month) +  "/" + str(self.date.month)}"
+         return get_appointment_str(self)
+
 
 class AppointmentReport(models.Model):
     appointment = models.OneToOneField(
@@ -94,3 +100,29 @@ class AppointmentReport(models.Model):
     notes = models.TextField(blank=True, null=True)
     duration = models.PositiveIntegerField(default=30)
     # services? I want for him to able to simply choose but aslo to customize
+
+    def __str__(self):
+        return get_appointment_str(self.appointment)
+
+
+# AppointmentReport will contains many services, each of which, will contain
+# Extra data such as duration, cost etc
+class AppointmentReportService(models.Model):
+    appointment_report = models.ForeignKey(
+        AppointmentReport, on_delete=models.CASCADE, related_name="report_service"
+    )
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name="report_service" )
+    duration = models.PositiveIntegerField(blank=True)
+    cost = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+
+
+    def save(self, *args, **kwargs):
+        if not self.duration:
+            self.duration = self.service.duration
+        if not self.cost:
+            self.cost = self.service.cost
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return get_appointment_str(self.appointment_report.appointment)
