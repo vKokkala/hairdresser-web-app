@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-
 {% block title %}Αρχική{% endblock %}
-
 {% block content %}
-  <h1>Αρχική</h1>
 
-  <nav>
-    <a href="{% url 'customer' %}">Πελάτες</a>
-    <a href="{% url 'product-type' %}">Τύποι Προϊόντων</a>
-    <a href="{% url 'brand' %}">Μάρκες</a>
-    <a href="{% url 'product' %}">Προϊόντα</a>
-    {% comment %} <a href="{% url 'appointment' %}">Ραντεβού</a> {% endcomment %}
-    {% comment %} <a href="{% url 'history' %}">Ιστορικό</a> {% endcomment %}
-  </nav>
+<h1>Αρχική</h1>
+
+<nav class="wrapper">
+  <a class="nav-btn" href="{% url 'customer' %}">Πελάτες</a>
+  <a class="nav-btn" href="{% url 'product-type' %}">Τύποι Προϊόντων</a>
+  <a class="nav-btn" href="{% url 'brand' %}">Μάρκες</a>
+  <a class="nav-btn" href="{% url 'product' %}">Προϊόντα</a>
+  <a class="nav-btn" href="{% url 'appointment' %}">Ραντεβού</a>
+</nav>
+
 {% endblock %}

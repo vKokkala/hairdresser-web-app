@@ -1,0 +1,36 @@
+{% extends "salon/_list_base.html" %}
+
+{% block page_title %}Ραντεβού{% endblock %}
+{% block heading %}Ραντεβού{% endblock %}
+
+{% block list_content %}
+  {% if appointments %}
+    <table>
+      <thead>
+        <tr>
+          <th>Ημερομηνία</th>
+          <th>Πελάτης</th>
+          <th>Υπηρεσίες</th>
+          <th>Διάρκεια</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in appointments %}
+          <tr>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.customer }}</td>
+            <td>{{ appointment.services.all|join:", " }}</td>
+            <td>{{ appointment.duration }} λεπτά</td>
+            <td>
+              {% url 'delete-appointment' appointment.pk as delete_url %}
+              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν ραντεβού ακόμα.</p>
+  {% endif %}
+{% endblock %}

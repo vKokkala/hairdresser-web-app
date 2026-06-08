@@ -1,37 +1,33 @@
-{% extends "salon/_list_base.html" %}
+{% extends "salon/_list_base.html" %} {% block page_title %}Πελάτες{% endblock
+%} {% block add_url %}{% url 'add-customer' %}{% endblock %} {% block add_label
+%}Νέος Πελάτης{% endblock %} {% block heading %}Πελάτες{% endblock %} {% block
+list_content %} {% if customers %}
 
-{% block page_title %}Πελάτες{% endblock %}
-{% block add_url %}{% url 'add-customer' %}{% endblock %}
-{% block add_label %}Νέος Πελάτης{% endblock %}
-{% block heading %}Πελάτες{% endblock %}
-
-{% block list_content %}
-  {% if customers %}
-    <table>
-      <thead>
-        <tr>
-          <th>Όνομα</th>
-          <th>Επώνυμο</th>
-          <th>Τηλέφωνο</th>
-          <th>Email</th>
-          <th></th>
-      </thead>
-      <tbody>
-        {% for customer in customers %}
-          <tr>
-            <td>{{ customer.first_name }}</td>
-            <td>{{ customer.last_name|default:"-" }}</td>
-            <td>{{ customer.phone }}</td>
-            <td>{{ customer.email|default:"-" }}</td>
-            <td>
-              {% url 'delete-customer' customer.pk as delete_url %}
-              {% include "salon/_delete_button.html" with delete_url=delete_url %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>Δεν υπάρχουν πελάτες ακόμα.</p>
-  {% endif %}
-{% endblock %}
+<table>
+  <thead>
+    <tr>
+      <th>Όνομα</th>
+      <th>Επώνυμο</th>
+      <th>Τηλέφωνο</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for customer in customers %}
+    <tr>
+      <td>{{ customer.first_name }}</td>
+      <td>{{ customer.last_name|default:"-" }}</td>
+      <td>{{ customer.phone }}</td>
+      <td>{{ customer.email|default:"-" }}</td>
+      <td>
+        {% url 'delete-customer' customer.pk as delete_url %} {% include
+        "salon/_delete_button.html" with delete_url=delete_url %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Δεν υπάρχουν πελάτες ακόμα.</p>
+{% endif %} {% endblock %}
