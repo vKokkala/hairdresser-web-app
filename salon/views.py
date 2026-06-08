@@ -12,14 +12,25 @@ def home(request):
 
 
 CustomerList, CustomerDelete, CustomerCreate = crud_views(
-    Customer, CustomerForm, "customer", "customers"
+    Customer,
+    "customer",
+    "customers",
+    CustomerForm,
 )
 
 ProductTypeList, ProductTypeDelete, ProductTypeCreate = crud_views(
-    ProductType, ProductTypeForm, "product-type", "product_types"
+    ProductType,
+    "product-type",
+    "product_types",
+    ProductTypeForm,
 )
 
-BrandList, BrandDelete, BrandCreate = crud_views(Brand, BrandForm, "brand", "brands")
+BrandList, BrandDelete, BrandCreate = crud_views(
+    Brand,
+    "brand",
+    "brands",
+    BrandForm,
+)
 
 ProductList, ProductDelete, ProductCreate = crud_views(
     Product, ProductForm, "product", "products"
