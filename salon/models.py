@@ -78,7 +78,7 @@ class Service(models.Model):
 
 
 class Appointment(models.Model):
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now, db_index=True)
     # TODO: should it support more than one user?
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     services = models.ManyToManyField(Service)

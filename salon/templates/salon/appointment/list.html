@@ -4,7 +4,9 @@
 {% block heading %}Ραντεβού{% endblock %}
 
 {% block list_content %}
-  {% if appointments %}
+
+  <h2>Προσεχή</h2>
+  {% if upcoming %}
     <table>
       <thead>
         <tr>
@@ -16,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for appointment in appointments %}
+        {% for appointment in upcoming %}
           <tr>
             <td>{{ appointment.date }}</td>
             <td>{{ appointment.customer }}</td>
@@ -32,6 +34,39 @@
       </tbody>
     </table>
   {% else %}
-    <p>Δεν υπάρχουν ραντεβού ακόμα.</p>
+    <p>Δεν υπάρχουν προσεχή ραντεβού.</p>
   {% endif %}
+
+  <h2>Περασμένα</h2>
+  {% if past %}
+    <table>
+      <thead>
+        <tr>
+          <th>Ημερομηνία</th>
+          <th>Πελάτης</th>
+          <th>Υπηρεσίες</th>
+          <th>Διάρκεια</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in past %}
+          <tr>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.customer }}</td>
+            <td>{{ appointment.services.all|join:", " }}</td>
+            <td>{{ appointment.duration }} λεπτά</td>
+            <td>
+              {% url 'edit-appointment' appointment.pk as edit_url %}
+              {% url 'delete-appointment' appointment.pk as delete_url %}
+              {% include "salon/_row_actions.html" %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν περασμένα ραντεβού.</p>
+  {% endif %}
+
 {% endblock %}

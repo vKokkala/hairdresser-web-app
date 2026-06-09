@@ -111,6 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 
+TIME_ZONE = "Europe/Athens"
 USE_TZ = False
 
 
