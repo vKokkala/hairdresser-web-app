@@ -1,0 +1,7 @@
+<div style="display:flex;gap:0.25rem;align-items:center;">
+  <a href="{{ edit_url }}">✏️</a>
+  <form method="post" action="{{ delete_url }}">
+    {% csrf_token %}
+    <button type="submit">🗑</button>
+  </form>
+</div>

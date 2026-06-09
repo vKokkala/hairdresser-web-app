@@ -3,7 +3,7 @@ import re
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 
 def crud_views(model_name, list_url_name, context_name, model_form_class=None):
@@ -31,4 +31,10 @@ def crud_views(model_name, list_url_name, context_name, model_form_class=None):
         template_name = f"salon/{folder}/add.html"
         success_url = reverse_lazy(list_url_name)
 
-    return List, Delete, Create
+    class Update(UpdateView):
+        model = model_name
+        form_class = model_form_class
+        template_name = f"salon/{folder}/edit.html"
+        success_url = reverse_lazy(list_url_name)
+
+    return List, Delete, Create, Update

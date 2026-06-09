@@ -102,3 +102,47 @@ button {
   gap: 40px;
   margin-top: 20px;
 }
+
+label {
+  color: #fbd4a9;
+  display: block;
+  margin-bottom: 4px;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  background: #4c1264;
+  color: #fbd4a9;
+  border: 2px solid #91527b;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color-scheme: dark;
+}
+
+/* CheckboxSelectMultiple — pill-style selectable items */
+fieldset ul {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+fieldset ul li label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #4c1264;
+  border: 2px solid #91527b;
+  border-radius: 20px;
+  padding: 4px 12px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+fieldset ul li label:has(input:checked) {
+  background: #91527b;
+  border-color: #fbd4a9;
+}

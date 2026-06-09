@@ -19,8 +19,9 @@
           <tr>
             <td>{{ brand.name }}</td>
             <td>
+              {% url 'edit-brand' brand.pk as edit_url %}
               {% url 'delete-brand' brand.pk as delete_url %}
-              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+              {% include "salon/_row_actions.html" %}
             </td>
           </tr>
         {% endfor %}

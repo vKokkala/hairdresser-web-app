@@ -23,8 +23,9 @@
             <td>{{ service.cost }}</td>
             <td>{{ service.duration }}</td>
             <td>
+              {% url 'edit-service' service.pk as edit_url %}
               {% url 'delete-service' service.pk as delete_url %}
-              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+              {% include "salon/_row_actions.html" %}
             </td>
           </tr>
         {% endfor %}
