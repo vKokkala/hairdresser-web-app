@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 from salon.utils.views import crud_views
 
-from .forms import BrandForm, CustomerForm, ProductForm, ProductTypeForm
-from .models import Appointment, Brand, Customer, Product, ProductType
+from .forms import BrandForm, CustomerForm, ProductForm, ProductTypeForm, ServiceForm
+from .models import Appointment, Brand, Customer, Product, ProductType, Service
 
 
 # utils
@@ -33,9 +33,13 @@ BrandList, BrandDelete, BrandCreate = crud_views(
 )
 
 ProductList, ProductDelete, ProductCreate = crud_views(
-    Product, ProductForm, "product", "products"
+    Product, "product", "products", ProductForm
 )
 
 AppointmentList, AppointmentDelete = crud_views(
     Appointment, "appointment", "appointments"
+)
+
+ServiceList, ServiceDelete, ServiceCreate = crud_views(
+    Service, "service", "services", ServiceForm
 )

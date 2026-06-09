@@ -1,0 +1,36 @@
+{% extends "salon/_list_base.html" %}
+
+{% block page_title %}Υπηρεσίες{% endblock %}
+{% block add_url %}{% url 'add-service' %}{% endblock %}
+{% block add_label %}Νέα Υπηρεσία{% endblock %}
+{% block heading %}Υπηρεσίες{% endblock %}
+
+{% block list_content %}
+  {% if services %}
+    <table>
+      <thead>
+        <tr>
+          <th>Όνομα</th>
+          <th>Κόστος</th>
+          <th>Διάρκεια (λεπτά)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in services %}
+          <tr>
+            <td>{{ service.name }}</td>
+            <td>{{ service.cost }}</td>
+            <td>{{ service.duration }}</td>
+            <td>
+              {% url 'delete-service' service.pk as delete_url %}
+              {% include "salon/_delete_button.html" with delete_url=delete_url %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Δεν υπάρχουν υπηρεσίες ακόμα.</p>
+  {% endif %}
+{% endblock %}

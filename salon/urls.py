@@ -15,6 +15,9 @@ from .views import (
     ProductTypeCreate,
     ProductTypeDelete,
     ProductTypeList,
+    ServiceCreate,
+    ServiceDelete,
+    ServiceList,
     home,
 )
 
@@ -47,4 +50,8 @@ urlpatterns = [
         AppointmentDelete.as_view(),
         name="delete-appointment",
     ),
+    # Services
+    path("services/", ServiceList.as_view(), name="service"),
+    path("services/add/", ServiceCreate.as_view(), name="add-service"),
+    path("services/<int:pk>/delete/", ServiceDelete.as_view(), name="delete-service"),
 ]

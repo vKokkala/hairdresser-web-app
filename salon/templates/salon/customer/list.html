@@ -1,7 +1,9 @@
-{% extends "salon/_list_base.html" %} {% block page_title %}Πελάτες{% endblock
-%} {% block add_url %}{% url 'add-customer' %}{% endblock %} {% block add_label
-%}Νέος Πελάτης{% endblock %} {% block heading %}Πελάτες{% endblock %} {% block
-list_content %} {% if customers %}
+{% extends "salon/_list_base.html" %}
+{% block page_title %}Πελάτες{% endblock%}
+{% block add_url %}{% url 'add-customer' %}{% endblock %} 
+{% block add_label%}Νέος Πελάτης{% endblock %}
+{% block heading %}Πελάτες{% endblock %}
+{% block list_content %} {% if customers %}
 
 <table>
   <thead>
@@ -21,8 +23,8 @@ list_content %} {% if customers %}
       <td>{{ customer.phone }}</td>
       <td>{{ customer.email|default:"-" }}</td>
       <td>
-        {% url 'delete-customer' customer.pk as delete_url %} {% include
-        "salon/_delete_button.html" with delete_url=delete_url %}
+        {% url 'delete-customer' customer.pk as delete_url %} 
+        {% include "salon/_delete_button.html" with delete_url=delete_url %}
       </td>
     </tr>
     {% endfor %}
