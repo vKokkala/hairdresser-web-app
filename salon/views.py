@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils import timezone
 
 from salon.utils.views import crud_views
 
@@ -36,9 +37,17 @@ ProductList, ProductDelete, ProductCreate, ProductUpdate = crud_views(
     Product, "product", "products", ProductForm
 )
 
-AppointmentList, AppointmentDelete, AppointmentCreate, AppointmentUpdate = crud_views(
+BaseAppointmentList, AppointmentDelete, AppointmentCreate, AppointmentUpdate = crud_views(
     Appointment, "appointment", "appointments", AppointmentForm
 )
+
+class AppointmentList(BaseAppointmentList):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        context["upcoming"] = Appointment.objects.filter(date__gte=now).order_by("date")
+        context["past"] = Appointment.objects.filter(date__lt=now).order_by("-date")
+        return context
 
 ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(
     Service, "service", "services", ServiceForm
