@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+    AppointmentCreate,
     AppointmentDelete,
     AppointmentList,
     AppointmentUpdate,
@@ -24,6 +25,7 @@ from .views import (
     ServiceDelete,
     ServiceList,
     ServiceUpdate,
+    customer_appointment_history,
     home,
 )
 
@@ -34,6 +36,7 @@ urlpatterns = [
     path("customer/add", CustomerCreate.as_view(), name="add-customer"),
     path("customer/<int:pk>/edit/", CustomerUpdate.as_view(), name="edit-customer"),
     path("customer/<int:pk>/delete/", CustomerDelete.as_view(), name="delete-customer"),
+    path("customer/<int:pk>/history/", customer_appointment_history, name="customer-history"),
     # Product types
     path("product-types/", ProductTypeList.as_view(), name="product-type"),
     path("product-types/add/", ProductTypeCreate.as_view(), name="add-product-type"),
@@ -55,6 +58,7 @@ urlpatterns = [
     path("products/<int:pk>/delete/", ProductDelete.as_view(), name="delete-product"),
     # Appointments
     path("appointments/", AppointmentList.as_view(), name="appointment"),
+    path("apppointment/add/", AppointmentCreate.as_view(), name="add-appointment"),
     path("appointments/<int:pk>/edit/", AppointmentUpdate.as_view(), name="edit-appointment"),
     path(
         "appointments/<int:pk>/delete/",

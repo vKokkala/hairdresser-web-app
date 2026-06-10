@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
-from salon.utils.views import crud_views
+from salon.utils.view_utils import crud_views
 
 from .forms import AppointmentForm, BrandForm, CustomerForm, ProductForm, ProductTypeForm, ServiceForm
 from .models import Appointment, Brand, Customer, Product, ProductType, Service
@@ -52,3 +52,12 @@ class AppointmentList(BaseAppointmentList):
 ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(
     Service, "service", "services", ServiceForm
 )
+
+
+def customer_appointment_history(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    appointments = Appointment.objects.filter(customer=customer).order_by("-date")
+    return render(request, "salon/customer_appointment_history.html", {
+        "customer": customer,
+        "appointments": appointments,
+    })
