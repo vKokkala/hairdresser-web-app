@@ -1,1 +1,11 @@
 {% extends "base.html" %}
+
+{% block content %}
+<h1>{{ customer.first_name }} {{ customer.last_name }}</h1>
+
+{% for appointment in appointments %}
+    <p>{{ appointment.date }} — {% for service in appointment.services.all %}{{ service }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+{% empty %}
+    <p>No appointments yet.</p>
+{% endfor %}
+{% endblock %}

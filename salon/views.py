@@ -56,7 +56,7 @@ ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(
 
 def customer_appointment_history(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    appointments = Appointment.objects.filter(customer=customer).order_by("-date")
+    appointments = Appointment.objects.filter(customer=customer).order_by("-date").prefetch_related("report", "services")
     return render(request, "salon/customer_appointment_history.html", {
         "customer": customer,
         "appointments": appointments,
