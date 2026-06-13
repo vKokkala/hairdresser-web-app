@@ -3,7 +3,17 @@
 {% block content %}
 <h1>{{ customer.first_name }} {{ customer.last_name }}</h1>
 
-{% for appointment in appointments %}
+
+<h2>Future Appointments</h2>
+{% for appointment in future_appointments %}
+    <p>{{ appointment.date }} — {% for service in appointment.services.all %}{{ service }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+{% empty %}
+    <p>No appointments yet.</p>
+{% endfor %}
+
+
+<h2>Past appointments</h2>
+{% for appointment in past_appointments %}
     <p>{{ appointment.date }} — {% for service in appointment.services.all %}{{ service }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 {% empty %}
     <p>No appointments yet.</p>

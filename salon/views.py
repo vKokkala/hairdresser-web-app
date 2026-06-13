@@ -3,8 +3,24 @@ from django.utils import timezone
 
 from salon.utils.view_utils import crud_views
 
-from .forms import AppointmentForm, BrandForm, CustomerForm, ProductForm, ProductTypeForm, ServiceForm
-from .models import Appointment, Brand, Customer, Product, ProductType, Service
+from .forms import (
+    ApointmentReportForm,
+    AppointmentForm,
+    BrandForm,
+    CustomerForm,
+    ProductForm,
+    ProductTypeForm,
+    ServiceForm,
+)
+from .models import (
+    Appointment,
+    AppointmentReport,
+    Brand,
+    Customer,
+    Product,
+    ProductType,
+    Service,
+)
 
 
 # utils
@@ -37,9 +53,10 @@ ProductList, ProductDelete, ProductCreate, ProductUpdate = crud_views(
     Product, "product", "products", ProductForm
 )
 
-BaseAppointmentList, AppointmentDelete, AppointmentCreate, AppointmentUpdate = crud_views(
-    Appointment, "appointment", "appointments", AppointmentForm
+BaseAppointmentList, AppointmentDelete, AppointmentCreate, BaseAppointmentUpdate = (
+    crud_views(Appointment, "appointment", "appointments", AppointmentForm)
 )
+
 
 class AppointmentList(BaseAppointmentList):
     def get_context_data(self, **kwargs):
@@ -49,6 +66,22 @@ class AppointmentList(BaseAppointmentList):
         context["past"] = Appointment.objects.filter(date__lt=now).order_by("-date")
         return context
 
+
+class AppointmentUpdate(BaseAppointmentUpdate):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointment = context.get("appointment")
+        try:
+            appointment_report = AppointmentReport.objects.get(appointment=appointment)
+        except AppointmentReport.DoesNotExist:
+            appointment_report = AppointmentReport.objects.create(
+                appointment=appointment
+            )
+        context["appointment_report"] = appointment_report
+        context["appointment_report_form"] = ApointmentReportForm
+        return context
+
+
 ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(
     Service, "service", "services", ServiceForm
 )
@@ -56,8 +89,20 @@ ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(
 
 def customer_appointment_history(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    appointments = Appointment.objects.filter(customer=customer).order_by("-date").prefetch_related("report", "services")
-    return render(request, "salon/customer_appointment_history.html", {
-        "customer": customer,
-        "appointments": appointments,
-    })
+    appointments = (
+        Appointment.objects.filter(customer=customer)
+        .order_by("-date")
+        .prefetch_related("report", "services")
+    )
+    now = timezone.now()
+    past_appointments = appointments.filter(date__lt=now)
+    future_appointments = appointments.filter(date__gte=now)
+    return render(
+        request,
+        "salon/customer_appointment_history.html",
+        {
+            "customer": customer,
+            "past_appointments": past_appointments,
+            "future_appointments": future_appointments,
+        },
+    )

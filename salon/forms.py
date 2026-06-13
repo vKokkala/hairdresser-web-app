@@ -1,5 +1,5 @@
 from django import forms
-from .models import Appointment, Brand, Customer, Product, ProductType, Service
+from .models import Appointment, AppointmentReport, Brand, Customer, Product, ProductType, Service
 
 
 class CustomerForm(forms.ModelForm):
@@ -42,3 +42,10 @@ class AppointmentForm(forms.ModelForm):
             ),
             "services": forms.CheckboxSelectMultiple(),
         }
+
+
+class ApointmentReportForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentReport
+        fields = ["notes", "duration"]
+        

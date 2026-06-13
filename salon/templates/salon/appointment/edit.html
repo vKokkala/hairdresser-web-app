@@ -4,3 +4,17 @@
 {% block back_url %}{% url 'appointment' %}{% endblock %}
 {% block heading %}Επεξεργασία Ραντεβού{% endblock %}
 {% block legend %}Στοιχεία Ραντεβού{% endblock %}
+
+{% block content %}
+
+{{block.super }}
+
+    <form method="post"> 
+        {% csrf_token %}
+        <fieldset>
+            <legend>Αναφορά</legend>
+            {{ appointment_report_form.as_p}}
+            <button type="submit">  Αποθήκευση </button>
+        </fieldset>
+    </form>
+{% endblock %}
