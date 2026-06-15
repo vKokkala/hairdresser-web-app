@@ -74,9 +74,8 @@ class AppointmentUpdate(BaseAppointmentUpdate):
         try:
             appointment_report = AppointmentReport.objects.get(appointment=appointment)
         except AppointmentReport.DoesNotExist:
-            appointment_report = AppointmentReport.objects.create(
-                appointment=appointment
-            )
+            appointment_report = None
+            
         context["appointment_report"] = appointment_report
         context["appointment_report_form"] = ApointmentReportForm
         return context

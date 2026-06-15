@@ -10,6 +10,11 @@ class Unit(models.TextChoices):
     G = "g", "g"
     PCS = "pcs", "Pieces"
 
+class AppointmentStatus(models.TextChoices):
+    PENDING = "pending", "Pending"
+    DONE = "done", "Done"
+    CANCELLED = "cancelled", "Cancelled"
+
 
 def get_appointment_str(appointment_obj):
     return f"{str(appointment_obj.customer)} {str(appointment_obj.date.day) +  "/" + str(appointment_obj.date.month)}"
@@ -83,6 +88,8 @@ class Appointment(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     services = models.ManyToManyField(Service)
     duration = models.PositiveIntegerField(default=30)
+    status = models.CharField(
+        max_length=10, choices=AppointmentStatus.choices, default=AppointmentStatus.PENDING)
 
     def save(self, *args, **kwargs):
         if not self.duration:

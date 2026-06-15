@@ -35,7 +35,7 @@ class ServiceForm(forms.ModelForm):
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ["date", "customer", "services", "duration"]
+        fields = ["date", "customer", "services", "duration", "status"]
         widgets = {
             "date": forms.DateTimeInput(
                 attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
