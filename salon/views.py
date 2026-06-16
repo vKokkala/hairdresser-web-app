@@ -1,3 +1,5 @@
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
@@ -6,6 +8,7 @@ from salon.utils.view_utils import crud_views
 from .forms import (
     ApointmentReportForm,
     AppointmentForm,
+    AppointmentReportServiceForm,
     BrandForm,
     CustomerForm,
     ProductForm,
@@ -15,6 +18,7 @@ from .forms import (
 from .models import (
     Appointment,
     AppointmentReport,
+    AppointmentReportService,
     Brand,
     Customer,
     Product,
@@ -67,18 +71,72 @@ class AppointmentList(BaseAppointmentList):
         return context
 
 
+def _make_service_formset(extra=0):
+    return modelformset_factory(
+        AppointmentReportService,
+        form=AppointmentReportServiceForm,
+        extra=extra,
+        can_delete=True,
+    )
+
+
 class AppointmentUpdate(BaseAppointmentUpdate):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        appointment = context.get("appointment")
+        appointment = self.object
+
         try:
-            appointment_report = AppointmentReport.objects.get(appointment=appointment)
+            report = AppointmentReport.objects.get(appointment=appointment)
+            report_form = ApointmentReportForm(instance=report)
+            ServiceFormSet = _make_service_formset()
+            service_formset = ServiceFormSet(
+                queryset=report.report_service.all(), prefix="services"
+            )
         except AppointmentReport.DoesNotExist:
-            appointment_report = None
-            
-        context["appointment_report"] = appointment_report
-        context["appointment_report_form"] = ApointmentReportForm
+            report = None
+            report_form = ApointmentReportForm()
+            initial = [
+                {"service": s.pk, "duration": s.duration, "cost": s.cost}
+                for s in appointment.services.all()
+            ]
+            ServiceFormSet = _make_service_formset(extra=len(initial))
+            service_formset = ServiceFormSet(
+                queryset=AppointmentReportService.objects.none(),
+                initial=initial,
+                prefix="services",
+            )
+
+        context["appointment_report"] = report
+        context["appointment_report_form"] = report_form
+        context["service_formset"] = service_formset
         return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        appointment = self.object
+
+        if appointment.status == "done":
+            report, _ = AppointmentReport.objects.get_or_create(appointment=appointment)
+
+            report_form = ApointmentReportForm(self.request.POST, instance=report)
+            if report_form.is_valid():
+                report_form.save()
+
+            ServiceFormSet = _make_service_formset()
+            service_formset = ServiceFormSet(
+                self.request.POST,
+                queryset=report.report_service.all(),
+                prefix="services",
+            )
+            if service_formset.is_valid():
+                instances = service_formset.save(commit=False)
+                for instance in instances:
+                    instance.appointment_report = report
+                    instance.save()
+                for obj in service_formset.deleted_objects:
+                    obj.delete()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 ServiceList, ServiceDelete, ServiceCreate, ServiceUpdate = crud_views(

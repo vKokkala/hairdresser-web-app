@@ -7,14 +7,52 @@
 
 {% block content %}
 
-{{block.super }}
+{{ block.super }}
 
-    <form method="post"> 
+<div id="report-section" style="display: {% if appointment.status == 'done' %}block{% else %}none{% endif %};">
+    <form method="post">
         {% csrf_token %}
         <fieldset>
             <legend>Αναφορά</legend>
-            {{ appointment_report_form.as_p}}
-            <button type="submit">  Αποθήκευση </button>
+
+            {{ service_formset.management_form }}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Υπηρεσία</th>
+                        <th>Διάρκεια (λεπτά)</th>
+                        <th>Κόστος (€)</th>
+                        <th>Διαγραφή</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service_form in service_formset %}
+                        {{ service_form.id }}
+                        <tr>
+                            <td>{{ service_form.service }}</td>
+                            <td>{{ service_form.duration }}</td>
+                            <td>{{ service_form.cost }}</td>
+                            <td>{{ service_form.DELETE }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <label>Σημειώσεις</label>
+            {{ appointment_report_form.notes }}
+
+            <button type="submit">Αποθήκευση</button>
         </fieldset>
     </form>
+</div>
+
+<script>
+    const statusField = document.querySelector('[name="status"]');
+    const reportSection = document.getElementById('report-section');
+    if (statusField) {
+        statusField.addEventListener('change', function () {
+            reportSection.style.display = this.value === 'done' ? 'block' : 'none';
+        });
+    }
+</script>
 {% endblock %}
