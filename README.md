@@ -1,4 +1,4 @@
-# HairdresserWebApp
+# Hairdresser Web App
 
 A simple CMS web app built with Django and Docker.
 
